@@ -1,4 +1,7 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="WebForm1.aspx.cs" Inherits="book2.WebForm1" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="modal update.aspx.cs" Inherits="book2.modal_update" %>
+
+<!DOCTYPE html>
+
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -122,7 +125,7 @@
                         <div class="form-group">
                             <label for="Country">Country:</label>
                             <select id="country-select" class="form-control">
-                                <option value="" selected disabled>Please select a country</option>
+                                <option value="" selected="selected" disabled="disabled">Please select a country</option>
                             </select>
                         </div>
 
@@ -130,25 +133,25 @@
                         <div class="form-group">
                             <label for="State">State:</label>
                             <select id="state-select" class="form-control" disabled="disabled">
-                                <option value="" selected disabled>Please select a state</option>
+                                <option value="" selected="selected" disabled="disabled">Please select a state</option>
                             </select>
                         </div>
                         <!--Places to go-->
                         <div class="form-group">
                             <label for="Places">Places to go:</label>
                             <select id="places-to-go-select" class="form-control" disabled="disabled" multiple name="places">
-                                <option value="" selected disabled>Please select a state first</option>
+                                <option value="" selected="selected"disabled="disabled">Please select a state first</option>
                             </select>
                        </div>
                         <!---DOB--->
                         <div class="form-group">
                             <label for="DOB">DOB:</label>
-                            <input type="date" class="form-control" id="DOB" />
+                            <input type="datetime-local" class="form-control" id="DOB" max="" />
                         </div>
-                        <!--Phone-->
                         <div class="form-group">
                             <label for="phone">Phone:</label>
-                            <input type="tel" class="form-control" id="phone" placeholder="Add number" />
+                            <input type="number" class="form-control" id="phone" placeholder="Add number" maxlength="10" />
+                            <div id="phone-error" class="text-danger"></div>
                         </div>
                         <!--Flight Start Date-->
 <%--                        <body onload="setMinStartDate()">--%>
@@ -210,7 +213,8 @@
                             <th>Places</th>
                             <th>Upload</th>
                             <th>Email</th>
-                            <th>Edit</th>
+                            <th>Action</th>
+                            <th>Update</th>
                             <%--<th>Delete</th>--%>
                         </tr>
                     </thead>
@@ -229,47 +233,145 @@
                             <td>Upload</td>
                             <td>Email</td>
                             <td>
-                                <a href="#" onclick="onEdit(this)" ><i class="fas fa-edit"></i>Edit</a>
+                                <a href="#" onclick="onEdit(this)" ><i class="fas fa-edit"></i></a>
                             </td>
-                           <%-- <td>
-                                <a href="#" onclick="onDelete(this)" ><i class="fa fa-trash" ></i>Delete</a>
-                            </td>--%>
+                            <td>
+                                <button type="button" onclick="onUpdate()" class="btn btn-sm btn-primary fas fa-pencil-alt noUnderlineCustom text-white" data-toggle="modal" data-target="#editModal"></button>
+                            </td>
                             </tr>
-                       
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
       </div>
-    <br />
-    <h5 align="center">Flight Facilities</h5>
-    <!-- Button to Open the Modal -->
-    <button1 type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#myModal">
-        Click Here!!
-    </button1>
-    <!-- The Modal -->
-    <div class="modal" id="myModal">
-        <div class="modal-dialog">
+  
+      <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <!-- Modal Header -->
                 <div class="modal-header">
-                    <h4 class="modal-title">Welcome! to our airlines </h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h5 class="modal-title" id="ModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-                <!-- Modal body -->
                 <div class="modal-body">
-                    <div class="embed-responsive embed-responsive-16by9 hoverable">
-                        <iframe class="embed-responsive-item" width="560" height="315" src="https://www.youtube.com/embed/FGd5Btu9qHI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen=""></iframe>
-                    </div>
-                </div>
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+                    <form action="WebForm1.aspx" " enctype="multipart/form-data"  id="ModalForm">
+                        <input type="hidden" id="editId" value="" />
+                          <!--First name-->
+                        <div class="form-group">
+                            <label for="first name" title="Text color is blue">First Name:</label>
+                            <input type="text" class="form-control" id="first name" placeholder="Enter First name" title="Please enter your first name" />
+                        </div>
+                        <!--Last name -->
+                        <div class="form-group">
+                            <label for="last name" title="text color is blue">Last Name:</label>
+                            <input type="text" class="form-control" id="last name" placeholder="Enter Last name" title="enter your last name " />
+                        </div>
+                        <!--Gender Radio Button -->
+                        <div class="form-group">
+                            <label for="Gender">Gender:</label>
+                            <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input" id="maleRadios" name="genders" value="Male" />
+                                <label class="custom-control-label" for="maleRadios">Male</label>
+                            </div>
+                            <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input" id="femaleRadios" name="genders" value="female" />
+                                <label class="custom-control-label" for="femaleRadios">Female</label>
+                            </div>
+                            <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input" id="otherRadios" name="genders" value="others" />
+                                <label class="custom-control-label" for="otherRadios">Others</label>
+                            </div>
+                        </div>
+                        <!--Languages known Check box -->
+                        <label for="languages">Languages Known:</label>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input" id="english-checkboxs" name="checkboxss" value="" />English
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input" id="french-checkboxs" name="checkboxss" value="" />French
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input" id="spanish-checkboxs" name="checkboxss" value="" />Spanish
+                            </label>
+                        </div>
+                        <!--Country-->
+                        <div class="form-group">
+                            <label for="Country">Country:</label>
+                            <select id="country-selects" class="form-control">
+                                <option value="" selected="selected" disabled="disabled">Please select a country</option>
+                            </select>
+                        </div>
+
+                        <!--State-->
+                        <div class="form-group">
+                            <label for="State">State:</label>
+                            <select id="state-selects" class="form-control" disabled="disabled">
+                                <option value="" selected="selected" disabled="disabled">Please select a state</option>
+                            </select>
+                        </div>
+                        <!--Places to go-->
+                        <div class="form-group">
+                            <label for="Places">Places to go:</label>
+                            <select id="places-to-go-selects" class="form-control" disabled="disabled" multiple name="places">
+                                <option value="" selected="selected"disabled="disabled">Please select a state first</option>
+                            </select>
+                       </div>
+                        <!---DOB--->
+                        <div class="form-group">
+                            <label for="DOBs">DOB:</label>
+                            <input type="datetime-local" class="form-control" id="DOBs" max="" />
+                        </div>
+                        <div class="form-group">
+                            <label for="phones">Phone:</label>
+                            <input type="number" class="form-control" id="phones" placeholder="Add number" maxlength="10" />
+                            <div id="phone-errors" class="text-danger"></div>
+                        </div>
+                        <!--Flight Start Date-->
+<%--                        <body onload="setMinStartDate()">--%>
+                            <div class="form-group">
+                                <label for="startDates">Start Date:</label>
+                                <input type="date" class="form-control" id="startDates" />
+                            </div>
+<%--                        </body>--%>
+                        <!--Flight End Date-->
+
+<%--                        <div onload="setMaxEndDate()">--%>
+                            <div class="form-group">
+                                <label for="endDates">End Date:</label>
+                                <input type="date" class="form-control" id="endDates" />
+                            </div>
+<%--                        </div>--%>
+                        <!--upload folder -->
+                        <div class="form-group">
+                            <label for="Upload">Upload a file</label>
+                            <input type="file" class="form-control-file" id="Uploads" />
+                        </div>
+                        <!--Email form -->
+                        <div class="form-group">
+                            <label for="emails">Email:</label>
+                            <input type="email" class="form-control" id="emails" placeholder="Enter mail" name="emails" />
+                        </div>
+                       
+                        <div class="modal-footer">
+                            <a  class="btn btn-secondary" data-dismiss="modal">Close</a>
+                            <button type="button"  id="saveModalButton" class="btn btn-primary" data-dismiss="modal">Save changes</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+    
+
+    
 </body>
 <script>
     $(document).ready(function () {
@@ -281,7 +383,6 @@
         var lastName = $("#usr2").val();
         var day = $("#DOB").val();
         var p = $("#phone").val();
-        var gender = $("input[name='gender']:checked").val(); // added check for gender field
         var startdate = $("#startDate").val();
         var enddate = $("#endDate").val();
         var country = $("#country-select").val();
@@ -290,104 +391,109 @@
         var upload = $("#Upload").val();
         var email = $("#email").val();
         var valid = true;
-        if (!firstName) {
+
+        if (!firstName && !lastName && !day && !p && !startdate && !enddate && !country && !state && !places && !upload && !email) {
             valid = false;
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
-                text: 'Please enter your first name'
+                text: 'Please fill the form'
             });
         }
-        if (!lastName) {
-            valid = false;
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Please enter your last name'
-            });
+        else {
+            if (!firstName) {
+                valid = false;
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Please enter your first name'
+                });
+            }
+            if (!lastName) {
+                valid = false;
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Please enter your last name'
+                });
+            }
+            if (!day) {
+                valid = false;
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Please enter your date of birth'
+                });
+            }
+            if (!p) {
+                valid = false;
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Please enter your phone number'
+                });
+            }
+
+            if (!startdate) {
+                valid = false;
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Please enter your start date'
+                });
+            }
+            if (!enddate) {
+                valid = false;
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Please enter your end date'
+                });
+            }
+            if (!country) {
+                valid = false;
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Please select your country'
+                });
+            }
+            if (!state) {
+                valid = false;
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Please select your state'
+                });
+            }
+            if (!places) {
+                valid = false;
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Please enter your places to visit'
+                });
+            }
+            if (!upload) {
+                valid = false;
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Please upload your file'
+                });
+            }
+            if (!email) {
+                valid = false;
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Please enter your email'
+                });
+            }
+            return valid;
         }
-        if (!day) {
-            valid = false;
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Please enter your date of birth'
-            });
-        }
-        if (!p) {
-            valid = false;
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Please enter your phone number'
-            });
-        }
-        if (!gender) {
-            valid = false;
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Please enter your gender'
-            });
-        }
-        if (!startdate) {
-            valid = false;
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Please enter your start date'
-            });
-        }
-        if (!enddate) {
-            valid = false;
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Please enter your end date'
-            });
-        }
-        if (!country) {
-            valid = false;
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Please select your country'
-            });
-        }
-        if (!state) {
-            valid = false;
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Please select your state'
-            });
-        }
-        if (!places) {
-            valid = false;
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Please enter your places to visit'
-            });
-        }
-        if (!upload) {
-            valid = false;
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Please upload your file'
-            });
-        }
-        if (!email) {
-            valid = false;
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Please enter your email'
-            });
-        }
-        return valid;
     }
+
     function submitClick() {
         debugger
         //$("#submitButton").click(function (event) {
@@ -410,7 +516,8 @@
             var uploadCell = row.insertCell(10);
             var emailCell = row.insertCell(11);
             var EditCell = row.insertCell(12);
-            //var DeleteCell = row.insertCell(13);
+            var updateCell = row.insertCell(13);
+          
             debugger
             firstNameCell.innerHTML = $("#usr").val();
             lastNameCell.innerHTML = $("#usr2").val();
@@ -424,8 +531,8 @@
             placesCell.innerHTML = $("#places-to-go-select").val();
             uploadCell.innerHTML = $("#Upload").val();
             emailCell.innerHTML = $("#email").val();
-            EditCell.innerHTML = `<a href="#" onclick="onEdit(this)" ><i class="fas fa-edit"></i>Edit</a>`;
-            //DeleteCell.innerHTML = ` <a href="#" onclick="onDelete(this)" ><i class="fas fa-trash"></i>Delete</a>`;
+            EditCell.innerHTML = `<a href="#" onclick="onEdit(this)" ><i class="fas fa-edit"></i></a>`;
+            updateCell.innerHTML = `<button type="button" onclick="onUpdate()" class="btn btn-sm btn-primary fas fa-pencil-alt noUnderlineCustom text-white" data-toggle="modal" data-target="#editModal"></button>`
             var data = {
                 firstName: $("#usr").val(),
                 lastName: $("#usr2").val(),
@@ -445,7 +552,6 @@
             localStorage.setItem("dataList", JSON.stringify(dataList));
             clearfield();
         }
-        //    });
     }
     // Clear all fields
     function clearfield() {
@@ -457,31 +563,85 @@
     }
 </script>
 <script>
-    //function onDelete(td) {
-    //    Swal.fire({
-    //        title: 'Are you sure?',
-    //        text: `You are about to delete the record for ${td.parentElement.parentElement.cells[0].innerText}. Are you sure you want to proceed?`,
-    //        icon: 'warning',
-    //        showCancelButton: true,
-    //        confirmButtonColor: '#3085d6',
-    //        cancelButtonColor: '#d33',
-    //        confirmButtonText: 'Yes, delete it!'
-    //    }).then((result) => {
-    //        if (result.isConfirmed) {
-    //            row = td.parentElement.parentElement;
-    //            document.getElementById("dataTable").deleteRow(row.rowIndex);
-    //            resetForm();
-    //            Swal.fire(
-    //                'Deleted!',
-    //                'Your data has been deleted.',
-    //                'success'
-    //            )
-    //        }
-    //    })
-    //}
-   
-</script>
- <script>
+    function onEdit(td) {
+        const cellIndex = td.cellIndex;
+        if (cellIndex === 11) {
+            return;
+        }
+        const row = td.closest('tr');
+        const cells = row.querySelectorAll('td');
+
+        // Replace the row's text content with input fields for editing
+        for (let i = 0; i < cells.length; i++) {
+            const cell = cells[i];
+            if (i <= 11) {
+                const currentValue = cell.textContent.trim();
+                cell.innerHTML = `<input type="text" value="${currentValue}" />`;
+            } else if (i === 12) {
+                cell.style.display = 'none';
+            }
+        }
+
+        // Add save and delete buttons for the row
+        const saveButton = document.createElement('button');
+        saveButton.innerHTML = '<i class="fas fa-save"></i>';
+        saveButton.classList.add('btn', 'btn-success', 'btn-sm', 'mx-1');
+        saveButton.addEventListener('click', () => {
+            // Loop over the cells and replace the input fields with text content
+            for (let i = 0; i < cells.length; i++) {
+                const cell = cells[i];
+                const input = cell.querySelector('input');
+                const newValue = input.value.trim();
+
+                cell.textContent = newValue;
+            }
+            // Remove the save and delete buttons from the row
+            row.removeChild(saveButton);
+            row.removeChild(deleteButton);
+        });
+
+        const deleteButton = document.createElement('button');
+        deleteButton.innerHTML = '<i class="fas fa-trash-alt"></i>';
+        deleteButton.classList.add('btn', 'btn-danger', 'btn-sm', 'mx-1');
+        deleteButton.addEventListener('click', () => {
+            // Get the value of the first name input field
+            const firstName = $("#usr").val();
+
+            // Show SweetAlert2 alert to confirm deletion
+            Swal.fire({
+                icon: 'warning',
+                title: 'Are you sure?',
+                text: `You are about to delete the row for "${firstName}".`,
+                showCancelButton: true,
+                confirmButtonText: 'Delete',
+                cancelButtonText: 'Cancel',
+                confirmButtonColor: '#dc3545'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    row.remove();
+                    // Show SweetAlert2 alert for successful deletion
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Row Deleted!',
+                        text: `The row for has been deleted.`,
+                        confirmButtonText: 'OK'
+                    });
+                }
+            });
+        });
+
+        row.appendChild(saveButton);
+        row.appendChild(deleteButton);
+
+        // Display edit message
+        Swal.fire({
+            title: 'Edit',
+            text: 'Edit this row and click Save.',
+            icon: 'info',
+            confirmButtonText: 'OK'
+        });
+    }
+
     // Define sample data
          var countries = [
          {id: 'US', text: 'United States' },
@@ -578,4 +738,87 @@
         }
     }
 </script>
+  <script>
+      const phoneInput = document.getElementById('phone');
+      const phoneError = document.getElementById('phone-error');
+
+      phoneInput.addEventListener('input', function () {
+          let phone = this.value.trim();
+          phone = phone.replace(/\D/g, ''); // remove non-numeric characters
+          if (phone.length > 10) {
+              phone = phone.slice(0, 10);
+          }
+          this.value = phone;
+
+          if (phone.length < 10) {
+              phoneError.textContent = 'Phone number must be at least 10 digits';
+              phoneInput.classList.add('is-invalid');
+              Swal.fire({
+                  icon: 'error',
+                  title: 'Oops...',
+                  text: 'Phone number must be at least 10 digits.',
+              });
+          } else {
+              phoneError.textContent = '';
+              phoneInput.classList.remove('is-invalid');
+              
+          }
+      });
+
+      document.querySelector('form1').addEventListener('submitButton', function (event) {
+          if (phoneInput.value.length < 10) {
+              event.preventDefault();
+             
+          }
+      });
+
+
+      function onUpdate() {
+          // Get a reference to the row that was clicked
+          var row = event.target.parentNode.parentNode;
+
+          // Get the data from the row
+          var firstName = row.cells[0].innerHTML;
+          var lastName = row.cells[1].innerHTML;
+          var dob = row.cells[2].innerHTML;
+          var phone = row.cells[3].innerHTML;
+          var gender = row.cells[4].innerHTML;
+          var startDate = row.cells[5].innerHTML;
+          var endDate = row.cells[6].innerHTML;
+          var country = row.cells[7].innerHTML;
+          var state = row.cells[8].innerHTML;
+
+          var places = row.cells[9].innerHTML;
+          var upload = row.cells[10].innerHTML;
+          var email = row.cells[11].innerHTML;
+
+          // Set the values of the modal fields to the data from the row
+          $("#first name").val(firstName);
+          $("#last name").val(lastName);
+          $("#DOBs").val(dob);
+          $("#phones").val(phone);
+          $("input[name='genders'][value='" + gender + "']").prop("checked", true);
+          $("#startDates").val(startDate);
+          $("#endDates").val(endDate);
+          $("#country-selects").val(country);
+          $("#state-selects").val(state);
+          $("#places-to-go-selects").val(places);
+          $("#Uploads").val(upload);
+          $("#emails").val(email);
+      }
+     
+  </script>
+
+    <script>
+        // Get the editId and first name input elements
+        const editIdInput = document.getElementById("editId");
+        const firstNameInput = document.getElementById("first name");
+
+
+        
+    </script>
+
+   
+   
+  
 </html>
