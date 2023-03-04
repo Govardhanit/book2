@@ -828,48 +828,12 @@
     const editIdInput = document.getElementById("editId");
     const firstNameInput = document.getElementById("first name");
 </script>
-    <%--<script>
-        $(function onUpdateclick() {
-            //Take the data from the TR during the event button
-            $('table').on('click', 'button.editingTRbutton', function (ele) {
-                debugger
-                //the <tr> variable is use to set the parentNode from "ele
-                var tr = ele.target.parentNode.parentNode;
-                var firstName = tr.cells[0].textContent;
-                var lastName = tr.cells[1].textContent;
-                var phone = tr.cells[2].textContent;
-                var gender = tr.cells[3].textContent;
-                var start = tr.cells[4].textContent;
-                var end = tr.cells[5].textContent;
-                var country = tr.cells[6].textContent;
-                var places = tr.cells[7].textContent;
-                var languages = tr.cells[8].textContent;
-                var upload = tr.cell[9].textContent;
-                var email = tr.cell[10].textContent;
-                $('h5.modal-title').html('Edit Admin Data: ' + firstName);
-                $('#editFname').val(firstName);
-                $('#editLname').val(lastName); 
-                $('#Ephone').val(phone);  
-                $('#genders').val(gender); 
-                $('#EstartDate').val(start);  
-                $('#editLname').val(end); 
-                $('#Ecountry-select').val(country).attr('selected','selected');
-                $('#Eplaces-select').val(places).trigger('change');
-                $('#EDOB').val(DOB);  
-                $('#language[]').val(languages);  
-                $('#editLname').val(upload);  
-                $('#EUpload').val(upload);  
-                $('#Eemail').val(email);  
-               
-    
-
-    </script>--%>
     <script>
         function onUpdateclick(button) {
             debugger
             // Get the <tr> element that contains the clicked button
             var tr = $(button).closest('tr');
-
+            debugger
             // Get the data from the table cells in the <tr>
             var firstName = tr.find('td:eq(0)').text();
             var lastName = tr.find('td:eq(1)').text();
